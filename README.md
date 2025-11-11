@@ -27,6 +27,7 @@ Before running this application, ensure you have:
 - Node.js (v14 or higher)
 - MySQL Server (v5.7 or higher)
 - Git for version control
+<<<<<<< HEAD
 
 🚀 Live Deployment
 This application is deployed and running on the Goldsmiths VM:
@@ -38,3 +39,5 @@ This application is deployed and running on the Goldsmiths VM:
 - ✅ All book routes functional (list, search, bargain books)
 - ✅ Responsive web interface
 - ✅ Forever process management for continuous operation
+=======
+>>>>>>> 9f400d039c0351376e476a2425e3cd2d6a9954f3
