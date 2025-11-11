@@ -28,30 +28,13 @@ Before running this application, ensure you have:
 - MySQL Server (v5.7 or higher)
 - Git for version control
 
-## 🏗 Installation & Setup
+🚀 Live Deployment
+This application is deployed and running on the Goldsmiths VM:
 
-### 1. Clone the Repository
+**Live URL:** http://www.doc.gold.ac.uk/usr/300/
 
-git clone https://github.com/y-yusra/06_berties_33921753.git
-cd berties-books
-
-### 2. Install Dependencies
-
-npm install
-
-### 3. Database Setup
-
-Local MySQL Setup:
-
-# Login to MySQL as root
-mysql -u root -p
-
-# Run the database creation script
-source create_db.sql
-
-# Populate with sample data
-source insert_test_data.sql
-
-Alternative one-liner:
-
-npm run setup-db
+## 📋 Features Demonstrated
+- ✅ Full database integration with MySQL
+- ✅ All book routes functional (list, search, bargain books)
+- ✅ Responsive web interface
+- ✅ Forever process management for continuous operation
