@@ -39,5 +39,3 @@ This application is deployed and running on the Goldsmiths VM:
 - ✅ All book routes functional (list, search, bargain books)
 - ✅ Responsive web interface
 - ✅ Forever process management for continuous operation
-=======
->>>>>>> 9f400d039c0351376e476a2425e3cd2d6a9954f3
