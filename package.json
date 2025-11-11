@@ -1,0 +1,32 @@
+{
+  "name": "berties-books",
+  "version": "1.0.0",
+  "description": "A comprehensive online bookshop web application built with Node.js, Express, EJS and MySQL",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup-db": "mysql -u root -p < create_db.sql && mysql -u root -p berties_books < insert_test_data.sql"
+  },
+  "keywords": [
+    "bookshop",
+    "e-commerce",
+    "mysql",
+    "express",
+    "nodejs"
+  ],
+  "author": "[Yusra]",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
