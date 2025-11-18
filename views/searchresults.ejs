@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔍 Search Results</h1>
+            <p>Search for: "<%= searchTerm %>"</p>
+        </header>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="/">🏠 Home</a></li>
+                <li><a href="/books/list">📖 All Books</a></li>
+                <li><a href="/books/addbook">➕ Add Book</a></li>
+                <li><a href="/books/bargainbooks">💰 Bargain Books</a></li>
+                <li><a href="/books/search">🔍 Search Books</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <div class="summary">
+                <p>Found <strong><%= totalResults %></strong> results for "<%= searchTerm %>"</p>
+                <a href="/books/search" class="btn">New Search</a>
+            </div>
+            
+            <% if (books.length > 0) { %>
+                <table class="books-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Book Title</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% books.forEach(function(book) { %>
+                            <tr>
+                                <td><%= book.id %></td>
+                                <td><%= book.name %></td>
+                                <td class="price">£<%= Number(book.price).toFixed(2) %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div style="text-align: center; padding: 2rem;">
+                    <h3>No books found for "<%= searchTerm %>"</h3>
+                    <p>Try a different search term or <a href="/books/addbook">add this book</a> to our collection.</p>
+                    <a href="/books/search" class="btn">Try Another Search</a>
+                </div>
+            <% } %>
+        </main>
+    </div>
+</body>
+</html>
