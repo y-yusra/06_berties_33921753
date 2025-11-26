@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔍 Search Books</h1>
+            <p>Find your next great read</p>
+        </header>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="/">🏠 Home</a></li>
+                <li><a href="/books/list">📖 All Books</a></li>
+                <li><a href="/books/addbook">➕ Add Book</a></li>
+                <li><a href="/books/bargainbooks">💰 Bargain Books</a></li>
+                <li><a href="/books/search">🔍 Search Books</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <div class="form-container">
+                <form action="/books/search" method="POST">
+                    <div class="form-group">
+                        <label for="keyword">Search Books:</label>
+                        <input type="text" id="keyword" name="keyword" required 
+                               placeholder="Enter book title or keyword...">
+                    </div>
+                    <button type="submit" class="btn">Search Books</button>
+                </form>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: #e8f4fd; border-radius: 5px;">
+                    <h4>💡 Search Tips:</h4>
+                    <ul>
+                        <li>Search for exact titles or partial matches</li>
+                        <li>Case insensitive search</li>
+                        <li>Exact matches will appear first in results</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .nav {
+            background: #34495e;
+            padding: 1rem;
+        }
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav a:hover {
+            background: #3498db;
+        }
+        .content {
+            padding: 2rem;
+            min-height: 400px;
+        }
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+        .lab7-section {
+            margin-top: 3rem; 
+            padding: 2rem; 
+            background: #e8f4f8; 
+            border-radius: 10px;
+        }
+        .test-info {
+            background: #d4edda; 
+            padding: 1rem; 
+            border-radius: 5px; 
+            margin-top: 1.5rem; 
+            text-align: center;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 Berties Books</h1>
+            <p>Your Premier Online Bookshop</p>
+        </header>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="/">🏠 Home</a></li>
+                <li><a href="/books/list">📖 All Books</a></li>
+                <li><a href="/books/addbook">➕ Add Book</a></li>
+                <li><a href="/books/bargainbooks">💰 Bargain Books</a></li>
+                <li><a href="/books/search">🔍 Search Books</a></li>
+                <li><a href="/users/register">👤 Register</a></li>
+                <li><a href="/users/login">🔐 Login</a></li>
+                <li><a href="/users/logout">🚪 Logout</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <div class="welcome-message">
+                <h2>Welcome to Berties Books!</h2>
+                <p>Discover your next favorite book from our extensive collection.</p>
+            </div>
+            
+            <!-- Original Book Features -->
+            <div class="features">
+                <div class="feature-card">
+                    <h3>📖 Browse Collection</h3>
+                    <p>Explore our complete catalog of books</p>
+                    <a href="/books/list">View All Books</a>
+                </div>
+                <div class="feature-card">
+                    <h3>💰 Great Deals</h3>
+                    <p>Find amazing books under £20</p>
+                    <a href="/books/bargainbooks">View Bargains</a>
+                </div>
+                <div class="feature-card">
+                    <h3>🔍 Smart Search</h3>
+                    <p>Find exactly what you're looking for</p>
+                    <a href="/books/search">Search Books</a>
+                </div>
+                <div class="feature-card">
+                    <h3>➕ Contribute</h3>
+                    <p>Add new books to our collection</p>
+                    <a href="/books/addbook">Add Book</a>
+                </div>
+            </div>
+            <div class="lab7-section">
+                <h2 style="text-align: center; color: #2c3e50; margin-bottom: 1.5rem;">🔐 Lab 7 - User Management</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <h3>👤 User Registration</h3>
+                        <p>Create new user accounts with secure password hashing</p>
+                        <a href="/users/register">Register User</a>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔐 User Login</h3>
+                        <p>Secure login system with password verification</p>
+                        <a href="/users/login">User Login</a>
+                    </div>
+                    <div class="feature-card">
+                        <h3>👥 View Users</h3>
+                        <p>See all registered users (passwords hidden)</p>
+                        <a href="/users/list">View Users</a>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📊 Audit Log</h3>
+                        <p>Monitor login attempts and security events</p>
+                        <a href="/users/audit">View Audit Log</a>
+                    </div>
+                </div>
+                
+                <!-- Test User Info -->
+                <div class="test-info">
+                    <h4 style="color: #155724; margin-bottom: 0.5rem;">🧪 Testing Information</h4>
+                    <p style="margin: 0; color: #0c5460;">
+                        <strong>Test User:</strong> 
+                        <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">gold</code> 
+                        | Password: 
+                        <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">smiths</code>
+                    </p>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 Berties Books. Built with Node.js, Express, EJS & MySQL.</p>
+        </footer>
+    </div>
+</body>
+</html>

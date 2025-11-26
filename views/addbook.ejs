@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>➕ Add New Book</h1>
+            <p>Contribute to our growing collection</p>
+        </header>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="/">🏠 Home</a></li>
+                <li><a href="/books/list">📖 All Books</a></li>
+                <li><a href="/books/addbook">➕ Add Book</a></li>
+                <li><a href="/books/bargainbooks">💰 Bargain Books</a></li>
+                <li><a href="/books/search">🔍 Search Books</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <div class="form-container">
+                <form action="/books/bookadded" method="POST">
+                    <div class="form-group">
+                        <label for="name">Book Title:</label>
+                        <input type="text" id="name" name="name" required 
+                               placeholder="Enter book title...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="price">Price (£):</label>
+                        <input type="number" id="price" name="price" 
+                               step="0.01" min="0" max="999.99" required
+                               placeholder="Enter price...">
+                    </div>
+                    
+                    <button type="submit" class="btn">Add Book to Collection</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

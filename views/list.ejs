@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <style>
+        .books-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .books-table th,
+        .books-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .books-table th {
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+        .books-table tr:hover {
+            background: #f8f9fa;
+        }
+        .price {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .summary {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📖 All Books</h1>
+            <p>Complete Collection - <%= totalBooks %> Books Available</p>
+        </header>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="/">🏠 Home</a></li>
+                <li><a href="/books/list">📖 All Books</a></li>
+                <li><a href="/books/addbook">➕ Add Book</a></li>
+                <li><a href="/books/bargainbooks">💰 Bargain Books</a></li>
+                <li><a href="/books/search">🔍 Search Books</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <div class="summary">
+                <p>Showing all <strong><%= totalBooks %></strong> books in our collection</p>
+            </div>
+            
+            <% if (availableBooks.length > 0) { %>
+                <table class="books-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Book Title</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% availableBooks.forEach(function(book) { %>
+                            <tr>
+                                <td><%= book.id %></td>
+                                <td><%= book.name %></td>
+                                <td class="price">£<%= Number(book.price).toFixed(2) %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div style="text-align: center; padding: 2rem;">
+                    <h3>No books found in the database</h3>
+                    <p>Why not <a href="/books/addbook">add the first book</a>?</p>
+                </div>
+            <% } %>
+        </main>
+    </div>
+</body>
+</html>
