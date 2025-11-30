@@ -52,6 +52,9 @@ app.get("/", (req, res) => {
   });
 });
 
+const usersRouter = require("./users");
+app.use("/", usersRouter);
+
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "OK",
