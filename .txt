@@ -1,0 +1,121 @@
+[1mdiff --git a/users.js b/users.js[m
+[1mindex 96b890b..9b053a0 100644[m
+[1m--- a/users.js[m
+[1m+++ b/users.js[m
+[36m@@ -19,7 +19,7 @@[m [mfunction logLoginAttempt(username, success, req) {[m
+     const ip = req.ip || req.connection.remoteAddress;[m
+     const insertQuery = "INSERT INTO audit_log (username, success, ip_address) VALUES (?, ?, ?)";[m
+     [m
+[31m-    req.app.locals.db.execute(insertQuery, [username, success, ip], (error) => {[m
+[32m+[m[32m    req.app.locals.db.query(insertQuery, [username, success, ip], (error) => {[m[41m[m
+         if (error) {[m
+             console.error("Failed to log login attempt:", error);[m
+         }[m
+[36m@@ -27,7 +27,7 @@[m [mfunction logLoginAttempt(username, success, req) {[m
+ }[m
+ [m
+ // Registration form - GET /users/register[m
+[31m-router.get('/users/register', (req, res) => {[m
+[32m+[m[32mrouter.get('/register', (req, res) => {[m[41m[m
+     res.send(`[m
+         <!DOCTYPE html>[m
+         <html>[m
+[36m@@ -63,17 +63,17 @@[m [mrouter.get('/users/register', (req, res) => {[m
+ });[m
+ [m
+ // Process registration - POST /users/registered[m
+[31m-router.post('/users/registered', [[m
+[32m+[m[32mrouter.post('/registered', [[m[41m[m
+     check('email').isEmail(),[m
+[31m-    check('username').isLength({ min: 5, max: 20 }),[m
+[31m-    check('password').isLength({ min: 8 })[m
+[32m+[m[32m    check('username').isLength({ min: 4, max: 20 }),[m[41m[m
+[32m+[m[32m    check('password').isLength({ min: 6 })[m[41m[m
+ ], (req, res) => {[m
+     const errors = validationResult(req);[m
+         if (!errors.isEmpty()) {[m
+         const errorMessages = errors.array().map(error => {[m
+             if (error.path === 'email') return '<li>Please enter a valid email address</li>';[m
+[31m-            if (error.path === 'username') return '<li>Username must be between 5-20 characters</li>';[m
+[31m-            if (error.path === 'password') return '<li>Password must be at least 8 characters</li>';[m
+[32m+[m[32m            if (error.path === 'username') return '<li>Username must be between 4-20 characters</li>';[m[41m[m
+[32m+[m[32m            if (error.path === 'password') return '<li>Password must be at least 6 characters</li>';[m[41m[m
+             return `<li>${error.msg}</li>`;[m
+         }).join('');[m
+         [m
+[36m@@ -96,7 +96,7 @@[m [mrouter.post('/users/registered', [[m
+         }[m
+         [m
+         const insertQuery = "INSERT INTO users (username, first_name, last_name, email, hashedPassword) VALUES (?, ?, ?, ?, ?)";[m
+[31m-        req.app.locals.db.execute(insertQuery, [username, first, last, email, hashedPassword], [m
+[32m+[m[32m        req.app.locals.db.query(insertQuery, [username, first, last, email, hashedPassword],[m[41m [m
+             (error, results) => {[m
+                 if (error) {[m
+                     if (error.code === 'ER_DUP_ENTRY') {[m
+[36m@@ -132,9 +132,9 @@[m [mrouter.post('/users/registered', [[m
+ });[m
+ [m
+ // List users - GET /users/list[m
+[31m-router.get('/users/list', redirectLogin, (req, res) => {[m
+[32m+[m[32mrouter.get('/list', redirectLogin, (req, res) => {[m[41m[m
+     const selectQuery = "SELECT id, username, first_name, last_name, email, created_at FROM users ORDER BY created_at DESC";[m
+[31m-    req.app.locals.db.execute(selectQuery, (error, results) => {[m
+[32m+[m[32m    req.app.locals.db.query(selectQuery, (error, results) => {[m[41m[m
+         if (error) {[m
+             res.send("Error retrieving users: " + error.sqlMessage);[m
+             return;[m
+[36m@@ -199,7 +199,7 @@[m [mrouter.get('/users/list', redirectLogin, (req, res) => {[m
+ });[m
+ [m
+ // Login form - GET /users/login[m
+[31m-router.get('/users/login', (req, res) => {[m
+[32m+[m[32mrouter.get('/login', (req, res) => {[m[41m[m
+     res.send(`[m
+         <!DOCTYPE html>[m
+         <html>[m
+[36m@@ -231,7 +231,7 @@[m [mrouter.get('/users/login', (req, res) => {[m
+ });[m
+ [m
+ // Process login - POST /users/loggedin[m
+[31m-router.post('/users/loggedin', (req, res) => {[m
+[32m+[m[32mrouter.post('/loggedin', (req, res) => {[m[41m[m
+     const { username, password } = req.body;[m
+     [m
+     if (!username || !password) {[m
+[36m@@ -240,7 +240,7 @@[m [mrouter.post('/users/loggedin', (req, res) => {[m
+     }[m
+     [m
+     const selectQuery = "SELECT username, hashedPassword FROM users WHERE username = ?";[m
+[31m-    req.app.locals.db.execute(selectQuery, [username], (error, results) => {[m
+[32m+[m[32m    req.app.locals.db.query(selectQuery, [username], (error, results) => {[m[41m[m
+         if (error) {[m
+             res.send("Error during login: " + error.sqlMessage);[m
+             return;[m
+[36m@@ -282,9 +282,9 @@[m [mrouter.post('/users/loggedin', (req, res) => {[m
+ });[m
+ [m
+ // View audit log - GET /users/audit[m
+[31m-router.get('/users/audit', redirectLogin, (req, res) => {[m
+[32m+[m[32mrouter.get('/audit', redirectLogin, (req, res) => {[m[41m[m
+     const selectQuery = "SELECT * FROM audit_log ORDER BY login_time DESC";[m
+[31m-    req.app.locals.db.execute(selectQuery, (error, results) => {[m
+[32m+[m[32m    req.app.locals.db.query(selectQuery, (error, results) => {[m[41m[m
+         if (error) {[m
+             res.send("Error retrieving audit log: " + error.sqlMessage);[m
+             return;[m
+[36m@@ -351,12 +351,12 @@[m [mrouter.get('/users/audit', redirectLogin, (req, res) => {[m
+ });[m
+ [m
+ // Logout route - GET /users/logout[m
+[31m-router.get('/users/logout', redirectLogin, (req, res) => {[m
+[32m+[m[32mrouter.get('/logout', redirectLogin, (req, res) => {[m[41m[m
+     req.session.destroy(err => {[m
+         if (err) {[m
+[31m-            return res.redirect('/usr/300/');[m
+[32m+[m[32m            return res.redirect('/');[m[41m[m
+         }[m
+[31m-        res.send('You are now logged out. <a href="/usr/300/">Home</a>');[m
+[32m+[m[32m        res.send('You are now logged out. <a href="/">Home</a>');[m[41m[m
+     });[m
+ });[m
+ [m

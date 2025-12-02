@@ -19,7 +19,7 @@ function logLoginAttempt(username, success, req) {
     const ip = req.ip || req.connection.remoteAddress;
     const insertQuery = "INSERT INTO audit_log (username, success, ip_address) VALUES (?, ?, ?)";
     
-    req.app.locals.db.execute(insertQuery, [username, success, ip], (error) => {
+    req.app.locals.db.query(insertQuery, [username, success, ip], (error) => {
         if (error) {
             console.error("Failed to log login attempt:", error);
         }
@@ -27,7 +27,7 @@ function logLoginAttempt(username, success, req) {
 }
 
 // Registration form - GET /users/register
-router.get('/users/register', (req, res) => {
+router.get('/register', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -63,17 +63,17 @@ router.get('/users/register', (req, res) => {
 });
 
 // Process registration - POST /users/registered
-router.post('/users/registered', [
+router.post('/registered', [
     check('email').isEmail(),
-    check('username').isLength({ min: 5, max: 20 }),
-    check('password').isLength({ min: 8 })
+    check('username').isLength({ min: 4, max: 20 }),
+    check('password').isLength({ min: 6 })
 ], (req, res) => {
     const errors = validationResult(req);
         if (!errors.isEmpty()) {
         const errorMessages = errors.array().map(error => {
             if (error.path === 'email') return '<li>Please enter a valid email address</li>';
-            if (error.path === 'username') return '<li>Username must be between 5-20 characters</li>';
-            if (error.path === 'password') return '<li>Password must be at least 8 characters</li>';
+            if (error.path === 'username') return '<li>Username must be between 4-20 characters</li>';
+            if (error.path === 'password') return '<li>Password must be at least 6 characters</li>';
             return `<li>${error.msg}</li>`;
         }).join('');
         
@@ -96,7 +96,7 @@ router.post('/users/registered', [
         }
         
         const insertQuery = "INSERT INTO users (username, first_name, last_name, email, hashedPassword) VALUES (?, ?, ?, ?, ?)";
-        req.app.locals.db.execute(insertQuery, [username, first, last, email, hashedPassword], 
+        req.app.locals.db.query(insertQuery, [username, first, last, email, hashedPassword], 
             (error, results) => {
                 if (error) {
                     if (error.code === 'ER_DUP_ENTRY') {
@@ -132,9 +132,9 @@ router.post('/users/registered', [
 });
 
 // List users - GET /users/list
-router.get('/users/list', redirectLogin, (req, res) => {
+router.get('/list', redirectLogin, (req, res) => {
     const selectQuery = "SELECT id, username, first_name, last_name, email, created_at FROM users ORDER BY created_at DESC";
-    req.app.locals.db.execute(selectQuery, (error, results) => {
+    req.app.locals.db.query(selectQuery, (error, results) => {
         if (error) {
             res.send("Error retrieving users: " + error.sqlMessage);
             return;
@@ -199,7 +199,7 @@ router.get('/users/list', redirectLogin, (req, res) => {
 });
 
 // Login form - GET /users/login
-router.get('/users/login', (req, res) => {
+router.get('/login', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -231,7 +231,7 @@ router.get('/users/login', (req, res) => {
 });
 
 // Process login - POST /users/loggedin
-router.post('/users/loggedin', (req, res) => {
+router.post('/loggedin', (req, res) => {
     const { username, password } = req.body;
     
     if (!username || !password) {
@@ -240,7 +240,7 @@ router.post('/users/loggedin', (req, res) => {
     }
     
     const selectQuery = "SELECT username, hashedPassword FROM users WHERE username = ?";
-    req.app.locals.db.execute(selectQuery, [username], (error, results) => {
+    req.app.locals.db.query(selectQuery, [username], (error, results) => {
         if (error) {
             res.send("Error during login: " + error.sqlMessage);
             return;
@@ -282,9 +282,9 @@ router.post('/users/loggedin', (req, res) => {
 });
 
 // View audit log - GET /users/audit
-router.get('/users/audit', redirectLogin, (req, res) => {
+router.get('/audit', redirectLogin, (req, res) => {
     const selectQuery = "SELECT * FROM audit_log ORDER BY login_time DESC";
-    req.app.locals.db.execute(selectQuery, (error, results) => {
+    req.app.locals.db.query(selectQuery, (error, results) => {
         if (error) {
             res.send("Error retrieving audit log: " + error.sqlMessage);
             return;
@@ -351,12 +351,12 @@ router.get('/users/audit', redirectLogin, (req, res) => {
 });
 
 // Logout route - GET /users/logout
-router.get('/users/logout', redirectLogin, (req, res) => {
+router.get('/logout', redirectLogin, (req, res) => {
     req.session.destroy(err => {
         if (err) {
-            return res.redirect('/usr/300/');
+            return res.redirect('/');
         }
-        res.send('You are now logged out. <a href="/usr/300/">Home</a>');
+        res.send('You are now logged out. <a href="/">Home</a>');
     });
 });
 

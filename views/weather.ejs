@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Weather Forecast' %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        nav {
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #007bff;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        .weather-form {
+            margin: 20px 0;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .weather-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #007bff;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">🏠 Home</a> |
+            <a href="/books/list">📖 Books</a> |
+            <a href="/weather">🌤️ Weather</a>
+        </nav>
+
+        <h1>Weather Forecast</h1>
+
+        <form method="POST" action="/weather" class="weather-form">
+            <input type="text" name="city" placeholder="Enter city name" value="<%= typeof city !== 'undefined' ? city : 'London' %>">
+            <button type="submit">Get Weather</button>
+        </form>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error">
+                <h3>Error</h3>
+                <p><%= error %></p>
+            </div>
+        <% } %>
+
+        <% if (typeof weather !== 'undefined' && weather && weather.cod === 200) { %>
+            <div class="weather-box">
+                <h2>Weather in <%= weather.name %>, <%= weather.sys.country %></h2>
+                <p>🌡️ Temperature: <strong><%= weather.main.temp %>°C</strong></p>
+                <p>📊 Min/Max: <%= weather.main.temp_min %>°C / <%= weather.main.temp_max %>°C</p>
+                <p>💧 Humidity: <%= weather.main.humidity %>%</p>
+                <p>🌤️ Conditions: <%= weather.weather[0].description %></p>
+                <% if (weather.wind && weather.wind.speed) { %>
+                    <p>💨 Wind: <%= weather.wind.speed %> m/s</p>
+                <% } %>
+            </div>
+        <% } else if (typeof weather !== 'undefined' && weather && weather.message) { %>
+            <div class="error">
+                <p>API Error: <%= weather.message %></p>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

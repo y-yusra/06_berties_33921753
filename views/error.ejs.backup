@@ -32,7 +32,7 @@
     <h1><%= title || "Server Error" %></h1>
     <p><%= message || "Something went wrong." %></p>
 
-    <% if (typeof error !== 'undefined' && error) { %>
+    <% if (error) { %>
       <h3>Debug Info</h3>
       <pre><%= error.stack || JSON.stringify(error, null, 2) %></pre>
     <% } %>

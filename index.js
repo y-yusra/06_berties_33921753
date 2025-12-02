@@ -9,6 +9,9 @@ const express = require("express");
 const mysql = require("mysql2");
 const path = require("path");
 const booksRouter = require("./routes/books");
+const usersRouter = require("./users");
+const weatherRouter = require("./routes/weather");  // ADDED
+const apiRouter = require("./routes/api");          // ADDED
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -29,7 +32,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 600000
+        maxAge: 1000 * 60 * 60 * 24,
+        path: '/',
+        sameSite: 'lax'
     }
 }));
 
@@ -37,10 +42,10 @@ app.use(expressSanitizer());
 
 // --- DATABASE SETUP ---
 const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'berties_books_app',
+  password: process.env.DB_PASSWORD || 'qwertyuiop',
+  database: process.env.DB_NAME || 'berties_books',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -49,8 +54,11 @@ const db = mysql.createPool({
 
 app.locals.db = db;
 
-const usersRouter = require("./users");
-app.use("/", usersRouter);
+// Make db available to all routes
+app.use((req, res, next) => {
+  req.db = db;
+  next();
+});
 
 // TEST DATABASE CONNECTION
 db.getConnection((err, conn) => {
@@ -63,7 +71,11 @@ db.getConnection((err, conn) => {
 });
 
 // --- ROUTES ---
+console.log("🔄 Loading routes...");
 app.use("/books", booksRouter);
+app.use("/users", usersRouter);
+app.use("/", weatherRouter);   // ADDED
+app.use("/api", apiRouter);    // ADDED
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -76,7 +88,8 @@ app.get("/", (req, res) => {
       { name: "Audit Log", path: "/users/audit", icon: "📊" },
       { name: "Logout", path: "/users/logout", icon: "🚪" }
     ],
-    testUser: { username: "gold", password: "smiths" }
+    testUser: { username: "gold", password: "smiths" },
+    userId: req.session.userId
   });
 });
 
@@ -92,7 +105,8 @@ app.get("/health", (req, res) => {
 app.use((req, res) => {
   res.status(404).render("error", {
     title: "Page Not Found",
-    message: "The page you are looking for does not exist."
+    message: "The page you are looking for does not exist.",
+    error: {}  // MAKE SURE THIS IS HERE
   });
 });
 
@@ -102,7 +116,7 @@ app.use((err, req, res, next) => {
   res.status(500).render("error", {
     title: "Server Error",
     message: "Something went wrong.",
-    error: err
+    error: process.env.NODE_ENV === 'development' ? err : {}
   });
 });
 
