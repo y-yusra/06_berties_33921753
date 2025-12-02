@@ -68,3 +68,33 @@ Login attempts are logged to an `audit_log` table in the database. The system re
 - Success/failure status
 - IP address
 All login attempts (both successful and failed) are recorded and can be viewed at `/users/audit`. This provides security monitoring and tracking of user access patterns.
+
+## 🔌 Lab 9 - Web APIs
+
+### **Part A: Consuming APIs**
+- **Weather Integration**: Added `/weather` route that fetches live weather data from OpenWeatherMap API
+- **Dynamic City Search**: Users can search weather for any city worldwide
+- **Error Handling**: Robust error handling for API failures and invalid city names
+- **User-Friendly Display**: Weather data presented in clean, readable format with icons and styling
+
+### **Part B: Providing APIs**
+- **Books API**: Created RESTful API endpoint at `/api/books` that returns book data in JSON format
+- **Machine-Readable Format**: Perfect for developers to integrate with other applications
+- **Database Integration**: Direct MySQL query returning structured JSON response
+
+### **API Features**
+- **GET /api/books**: Returns all books in JSON format
+- **Live Data**: Real-time database connection ensures up-to-date information
+- **Cross-Origin Support**: Ready for integration with frontend applications
+
+### **Technical Implementation**
+- **Request Module**: Used `request` module for HTTP API calls to external services
+- **JSON Parsing**: Proper handling and parsing of JSON API responses
+- **Environment Variables**: API keys stored securely in `.env` file
+- **Session Management**: Persistent user sessions for authenticated routes
+
+## 🌐 Deployment
+- **VM Deployment**: Successfully deployed on Goldsmiths VM at `http://www.doc.gold.ac.uk/usr/300/`
+- **Forever Process**: Running continuously using `forever` process manager
+- **Nginx Proxy**: Configured reverse proxy for reliable access
+- **Database**: MySQL running on VM with proper user permissions
