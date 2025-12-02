@@ -10,8 +10,8 @@ const mysql = require("mysql2");
 const path = require("path");
 const booksRouter = require("./routes/books");
 const usersRouter = require("./users");
-const weatherRouter = require("./routes/weather");  // ADDED
-const apiRouter = require("./routes/api");          // ADDED
+const weatherRouter = require("./routes/weather");
+const apiRouter = require("./routes/api");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -74,8 +74,8 @@ db.getConnection((err, conn) => {
 console.log("🔄 Loading routes...");
 app.use("/books", booksRouter);
 app.use("/users", usersRouter);
-app.use("/", weatherRouter);   // ADDED
-app.use("/api", apiRouter);    // ADDED
+app.use("/", weatherRouter);
+app.use("/api", apiRouter);
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -106,7 +106,7 @@ app.use((req, res) => {
   res.status(404).render("error", {
     title: "Page Not Found",
     message: "The page you are looking for does not exist.",
-    error: {}  // MAKE SURE THIS IS HERE
+    error: {} 
   });
 });
 
